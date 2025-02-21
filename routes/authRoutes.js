@@ -8,7 +8,7 @@ const router = express.Router();
 // User Registration API = Creates a new user account
 router.post("/register", async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password } = req.body;
 
     // Check if the user already exists
     const existingUser = await User.findOne({ where: { email } });
@@ -24,7 +24,7 @@ router.post("/register", async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role: role || "user", // Default role is 'user', only and admin should be able to assign a role
+      role:"user", // Default role is 'user', only an admin should be able to assign a role
     });
 
     // Generate a JWT token for the new user
@@ -57,6 +57,14 @@ router.post("/login", async (req, res) => {
 
     // Generate JWT token for the user
     const token = generateToken(user);
+
+    // Set cookie, "token" is the cookie name
+    res.cookie("token", token, {
+      httpOnly: true,             // Prevents client JS from reading
+      secure: false,              // Set to true in production w/ HTTPS
+      sameSite: "strict",         // Protects against CSRF
+      maxAge: 24 * 60 * 60 * 1000 // means 1 day in ms
+    })
 
     res.status(200).json({ message: "Login Successful", token });
   } catch (error) {

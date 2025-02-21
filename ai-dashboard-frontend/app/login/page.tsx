@@ -31,14 +31,10 @@ export default function LoginPage() {
     setLoading(true);
     try {
       // Login user via backend API
-      const response = await loginUser(formData.email, formData.password);
-
-      // If successful, store JWT or relevant token
-      localStorage.setItem("token", response.data.token);
-
+      await loginUser(formData.email, formData.password);
       toast.success("Login successful! Redirecting to dashboard...");
       // Redirect after a short delay
-      setTimeout(() => router.push("/dashboard"), 2000);
+      setTimeout(() => router.push("/dashboard"), 500);
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Login failed");
     }
@@ -104,7 +100,7 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit(onSubmit, onError)} className="space-y-5">
           {/* Email Field */}
           <div>
-            <label className="block mb-1 text-md text-gray-200">Email</label>
+            <label className="block mb-1 text-md text-[#48CAE4]">Email</label>
             <input
               {...register("email", {
                 required: "Email is required",
@@ -119,6 +115,7 @@ export default function LoginPage() {
                 w-full 
                 p-3 
                 text-sm
+                text-gray-300
                 bg-gray-800 
                 border 
                 border-gray-700 
@@ -137,7 +134,7 @@ export default function LoginPage() {
 
           {/* Password Field */}
           <div>
-            <label className="block mb-1 text-md text-gray-200">Password</label>
+            <label className="block mb-1 text-md text-[#48CAE4]">Password</label>
             <input
               {...register("password", {
                 required: "Password is required",
@@ -152,6 +149,7 @@ export default function LoginPage() {
                 w-full 
                 p-3 
                 text-sm
+                text-gray-300
                 bg-gray-800 
                 border 
                 border-gray-700 

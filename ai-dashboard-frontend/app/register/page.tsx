@@ -46,7 +46,7 @@ export default function RegisterPage() {
       // Attempt to create user via backend API
       await registerUser(formData.name, formData.email, formData.password);
       toast.success("Registration successful! Redirecting to login...");
-      setTimeout(() => router.push("/login"), 2000);
+      setTimeout(() => router.push("/login"), 500);
     } catch (error: any) {
       // If something fails, show error message (API or network)
       toast.error(error.response?.data?.message || "Registration failed");

@@ -1,11 +1,22 @@
 import axios from "axios";
 
-const API_URL = "https://localhost:5000/api/auth";  //Backend url
+const api = axios.create({
+    baseURL: "http://localhost:5000",
+    withCredentials: true,
+});
 
 export const registerUser = async (name: string, email:string, password: string) => {
-    return axios.post(`${API_URL}/register`, {name, email, password});
+    return api.post('/api/auth/register', {name, email, password});
 };
 
 export const loginUser = async (email: string, password: string) => {
-    return axios.post(`${API_URL}/login`, {email, password});
+    return api.post('/api/auth/login', {email, password});
 };
+
+export const logoutUser = async() => {
+    return api.post('/api/auth/logout');
+}
+
+export const getProtectedData = async() => {
+    return api.get('api/auth/protected');
+}

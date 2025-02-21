@@ -15,6 +15,25 @@ router.get("/users", authMiddleware, isAdmin, async (req, res) => {
   }
 });
 
+// Only admins can update a user's role
+router.put("/update-role/:id", authMiddleware, isAdmin, async (req, res) => {
+  try {
+    const {role} = req.body;    
+    const user = await User.findByPk(req.params.id);
+
+    if(!user) return res.status(404).json({ message: "User not found"});
+
+    // Update user's role
+    user.role = role;
+    await user.save();
+
+    res.json({ message: `User role updated to ${role}`});
+  } catch (error) {
+    console.error("Error updating user role:", error);
+    res.status(500).json({ message: "Server error"});
+  }
+});
+
 // Admin-Only Route: Delete a User
 router.delete("/users/:id", authMiddleware, isAdmin, async (req, res) => {
   try {
