@@ -4,6 +4,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const authRoutes = require('./routes/authRoutes');
+const authMiddleware = require('./middleware/authMiddleware');
 
 const app = express();
 
@@ -19,6 +20,10 @@ app.use('/api/auth', authRoutes); // API URLs
 // Test route
 app.get('/', (req, res) =>{
     res.send('API is running...');
+});
+
+app.get('/api/protected', authMiddleware, (req, res) => {
+    res.json({ message: 'Welcome to the protected route!', user: req.user });
 });
 
 // Start server
