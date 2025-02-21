@@ -44,11 +44,11 @@ The AI Task Dashboard is a full-stack web application designed to enhance produc
 - **JWT Middleware**:
   - Token-based route protection
   - Restricting access to authenticated users
-
-## Upcoming Tasks
 - **Role-Based Access Control (RBAC)**:
   - Restrict admin routes
-  - Allow admins to manage users
+  - Allow admins to manage users  
+
+## Upcoming Tasks
 - **Frontend Development**:
   - Build the UI with React.js and Tailwind CSS
   - Integrate frontend with backend API
