@@ -11,6 +11,14 @@ module.exports = {
         role: 'user',
         createdAt: new Date(),
         updatedAt: new Date()
+      },
+      {
+        name: 'Admin User',
+        email: 'admin@example.com',
+        password: await bcrypt.hash('admin123', 10), // Hashed password
+        role: 'user',
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ]);
   },

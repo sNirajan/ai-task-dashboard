@@ -24,7 +24,7 @@ router.post("/register", async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role: role || "user", // Default role is 'user'
+      role: role || "user", // Default role is 'user', only and admin should be able to assign a role
     });
 
     // Generate a JWT token for the new user

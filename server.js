@@ -5,17 +5,18 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const authRoutes = require('./routes/authRoutes');
 const authMiddleware = require('./middleware/authMiddleware');
+const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
 
 
-// Middleware
-
+// Middlewares
 app.use(express.json());    // Parse JSON requests
 app.use(cors()); // Enable CORS
 app.use(helmet()); // Security headers
 app.use(morgan('dev')); // Logging
 app.use('/api/auth', authRoutes); // API URLs
+app.use('/api/admin', adminRoutes); // Admin-Only routes
 
 // Test route
 app.get('/', (req, res) =>{
