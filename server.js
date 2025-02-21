@@ -3,6 +3,7 @@ const express=require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(express.json());    // Parse JSON requests
 app.use(cors()); // Enable CORS
 app.use(helmet()); // Security headers
 app.use(morgan('dev')); // Logging
+app.use('/api/auth', authRoutes); // API URLs
 
 // Test route
 app.get('/', (req, res) =>{
