@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { useForm, SubmitHandler, FieldErrors } from "react-hook-form";
-import { loginUser } from "@/utils/api"; 
+import { loginUser } from "@/utils/api";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
 // LoginFormData only needs email + password
 interface LoginFormData {
@@ -57,9 +58,9 @@ export default function LoginPage() {
         relative 
         text-white
       "
-      // Dark gradient background
+      // Modern gradient background
       style={{
-        background: "linear-gradient(135deg, #232526 0%, #414345 100%)",
+        background: "linear-gradient(135deg, #0F2027 0%, #203A43 50%, #2C5364 100%)",
       }}
     >
       {/* Decorative bubble shape */}
@@ -93,9 +94,12 @@ export default function LoginPage() {
           rounded-xl
         "
       >
-        <h2 className="text-3xl font-bold text-center mb-6 text-[#00D4FF] animate-pulse">
-          Login
-        </h2>
+        <h1 className="text-3xl font-bold text-center mb-6 text-[#00D4FF] animate-pulse">
+          AI Task Dashboard
+        </h1>
+        <p className="text-center text-gray-300 mb-8">
+          Smart AI-powered task management system for your productivity.
+        </p>
 
         <form onSubmit={handleSubmit(onSubmit, onError)} className="space-y-5">
           {/* Email Field */}
@@ -179,7 +183,7 @@ export default function LoginPage() {
               text-white 
               font-semibold 
               rounded-md 
-              hover:opacity-90 
+              hover:opacity-70
               transition 
               duration-200 
               focus:outline-none
@@ -188,6 +192,15 @@ export default function LoginPage() {
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
+        
+        {/* 🔹 Register Link */}
+        <p className="text-center text-gray-200 mt-6">
+          New here?{" "}
+          <Link href="/register" className="text-blue-300 hover:underline">
+            Create an account</Link>
+        </p>
+
+
       </div>
     </main>
   );

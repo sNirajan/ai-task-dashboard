@@ -7,17 +7,18 @@ const authRoutes = require("./routes/authRoutes");
 const authMiddleware = require("./middleware/authMiddleware");
 const adminRoutes = require("./routes/adminRoutes");
 const cookieParser = require("cookie-parser");
+const { User } = require("./models");
 const jwt = require("jsonwebtoken");
 
 const app = express();
 
 // Middlewares
 app.use(express.json()); // Parse JSON requests
-app.use(cookieParser());   // Reads cookies
+app.use(cookieParser()); // Reads cookies
 app.use(
   cors({
     origin: "http://localhost:3000",
-    credentials: true,          // Allows cookies to be sent
+    credentials: true, // Allows cookies to be sent
   })
 ); // Enable CORS
 app.use(helmet()); // Security headers
@@ -32,9 +33,23 @@ app.get("/", (req, res) => {
   res.send("API is running...");
 });
 
-app.get("/api/protected", authMiddleware, (req, res) => {
-  res.json({ message: "Welcome to the protected route!", user: req.user });
+app.get("/api/protected", authMiddleware, async (req, res) => {
+  try {
+    /// Find the authenticated user by ID
+    const user = await User.findByPk(req.user.id, {
+      attributes: ["id", "name", "email", "role"],
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({ message: "Welcome to the protected route!", user,});
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
 });
+
 
 // Start server
 const PORT = process.env.PORT || 5000;

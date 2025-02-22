@@ -4,9 +4,10 @@
 import { useState } from "react";
 // useForm, SubmitHandler, and FieldErrors from react-hook-form help with form validation
 import { useForm, SubmitHandler, FieldErrors } from "react-hook-form";
-import { registerUser } from "@/utils/api"; 
+import { registerUser } from "@/utils/api";
 import { useRouter } from "next/navigation"; // For page navigation
 import { toast } from "react-toastify";      // For showing success/error messages
+import Link from "next/link";
 
 // RegisterFormData defines the shape of form data
 // We ask for a repeated password (confirmPassword) to ensure the user typed it correctly.
@@ -269,7 +270,7 @@ export default function RegisterPage() {
               text-white 
               font-semibold 
               rounded-md 
-              hover:opacity-90 
+              hover:opacity-70 
               transition 
               duration-200 
               focus:outline-none
@@ -278,6 +279,15 @@ export default function RegisterPage() {
             {loading ? "Registering..." : "Register"}
           </button>
         </form>
+
+
+        {/* 🔹 Register Link */}
+        <p className="text-center text-sm text-gray-200 mt-4">
+
+          <Link href="/login" className="text-blue-300 hover:underline">
+            Back to Login</Link>
+        </p>
+
       </div>
     </main>
   );

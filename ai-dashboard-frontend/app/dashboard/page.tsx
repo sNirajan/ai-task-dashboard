@@ -1,34 +1,61 @@
-"use client";
+"use client"; // ✅ Ensures this component runs only on the client-side
 
 import { useEffect, useState } from "react";
-import { getProtectedData } from "@/utils/api";
 import { useRouter } from "next/navigation";
+import { getProtectedData } from "@/utils/api";
+import { FiCheckCircle, FiUsers, FiClipboard } from "react-icons/fi"; // Icons for UI
 
 export default function DashboardPage() {
   const router = useRouter();
   const [user, setUser] = useState<{ name: string; role: string } | null>(null);
 
+  // 🔹 Fetch user data when the component loads
   useEffect(() => {
-    getProtectedData().then((res) => {
-      setUser(res.data.user);
-    }).catch(() => {
-      router.push("/login");  // Redirect if not authenticated
-    });
+    getProtectedData()
+      .then((res) => {
+        if (res.data.user){
+        setUser(res.data.user); // Ensures that correct user data is stored
+        } else {
+          console.error("User data not found in response:", res.data);
+        }
+      })
+      .catch(() => {
+        router.push("/login"); // Redirects to login if not authenticated
+      });
   }, []);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white">
-      <h1 className="text-4xl font-bold">
-        {user ? `Welcome, ${user.name}!` : "Loading..."}
+      {/* 🔹 Welcome message */}
+      <h1 className="text-4xl font-bold text-center text-blue-400">
+        {user?  `Welcome, ${user.name || "Guest"}!` : "Loading..."}
       </h1>
-      <p className="mt-4 text-lg">
-        {user ? `You are logged in as: ${user.role}` : ""}
+
+      {/* 🔹 Display user role */}
+      <p className="mt-4 text-lg text-gray-300">
+        {user ? `You are logged in as: ${user.role.toUpperCase()}` : ""}
       </p>
 
-      <div className="mt-6 flex space-x-4">
-        <button className="px-6 py-3 bg-blue-500 rounded-lg">View Tasks</button>
+       {/* 🔹 Dashboard Cards */}
+       <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* View Tasks */}
+        <div className="p-6 bg-gray-800 rounded-lg shadow-md flex flex-col items-center">
+        <FiClipboard size={40} color="rgb(96, 165, 250)" />
+          <h2 className="text-lg font-semibold mt-2">View Tasks</h2>
+        </div>
+
+        {/* Create New Task */}
+        <div className="p-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg shadow-md flex flex-col items-center">
+        <FiCheckCircle size={40} color="white" />
+          <h2 className="text-lg font-semibold mt-2">Create Task</h2>
+        </div>
+
+        {/* Manage Users (Admins Only) */}
         {user?.role === "admin" && (
-          <button className="px-6 py-3 bg-red-500 rounded-lg">Manage Users</button>
+          <div className="p-6 bg-red-500 rounded-lg shadow-md flex flex-col items-center">
+             <FiUsers size={40} color="white" />
+            <h2 className="text-lg font-semibold mt-2">Manage Users</h2>
+          </div>
         )}
       </div>
     </div>

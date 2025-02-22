@@ -18,5 +18,5 @@ export const logoutUser = async() => {
 }
 
 export const getProtectedData = async() => {
-    return api.get('api/auth/protected');
+    return api.get('api/protected');   // Fetch user data from the backend
 }
