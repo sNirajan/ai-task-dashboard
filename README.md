@@ -47,11 +47,12 @@ The AI Task Dashboard is a full-stack web application designed to enhance produc
 - **Role-Based Access Control (RBAC)**:
   - Restrict admin routes
   - Allow admins to manage users  
-
-## Upcoming Tasks
 - **Frontend Development**:
   - Build the UI with React.js and Tailwind CSS
   - Integrate frontend with backend API
+
+
+## Upcoming Tasks
 - **Task Management Features**:
   - Create and assign tasks
   - AI-based suggestions
