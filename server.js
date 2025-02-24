@@ -8,6 +8,7 @@ const authMiddleware = require("./middleware/authMiddleware");
 const adminRoutes = require("./routes/adminRoutes");
 const cookieParser = require("cookie-parser");
 const { User } = require("./models");
+const taskRoutes = require("./routes/taskRoutes");
 const jwt = require("jsonwebtoken");
 
 const app = express();
@@ -27,6 +28,7 @@ app.use(morgan("dev")); // Logging
 // Routes
 app.use("/api/auth", authRoutes); // API URLs
 app.use("/api/admin", adminRoutes); // Admin-Only routes
+app.use("/api/tasks", taskRoutes);  // 
 
 // Test route
 app.get("/", (req, res) => {

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Task } = require("../models/task");
+const { Task } = require("../models");
 const authMiddleware = require("../middleware/authMiddleware");
 
 // Middleware ensures that only authenticated users can access tasks
@@ -92,7 +92,7 @@ router.put("/:id", async (req, res) => {
         });
 
         if (!task) {
-            return res.status(400).json({ message: "Task not found"});
+            return res.status(404).json({ message: "Task not found"});
         }
 
         // Update the task with new data
