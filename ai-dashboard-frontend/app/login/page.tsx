@@ -192,7 +192,7 @@ export default function LoginPage() {
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
-        
+
         {/* 🔹 Register Link */}
         <p className="text-center text-gray-200 mt-6">
           New here?{" "}

@@ -10,7 +10,7 @@ export default function DashboardPage() {
   const { tasks, loading } = useTaskContext(); // Fetch tasks from context
   const [user, setUser] = useState<{ name: string; role: string } | null>(null);
 
-  // 🔹 Fetch user data when the component loads
+  //  Fetch user data when the component loads
   useEffect(() => {
     getProtectedData()
       .then((res) => {
