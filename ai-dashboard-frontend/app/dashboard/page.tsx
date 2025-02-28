@@ -1,18 +1,16 @@
-"use client"; // ✅ Ensures this component runs only on the client-side
+"use client"; // Ensures this runs only on the client-side
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getProtectedData } from "@/utils/api";
-import { useTaskContext } from "../context/TaskContext";
-import { FiCheckCircle, FiUsers, FiClipboard } from "react-icons/fi"; // Icons for UI
+import { useTaskContext } from "@/app/context/TaskContext"; // Ensure Task Context is used
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { tasks, loading } = useTaskContext();  // Fetch tasks - Get tasks from context
+  const { tasks, loading } = useTaskContext(); // Fetch tasks from context
   const [user, setUser] = useState<{ name: string; role: string } | null>(null);
 
-
-  //  Fetch user data when the component loads
+  // 🔹 Fetch user data when the component loads
   useEffect(() => {
     getProtectedData()
       .then((res) => {
@@ -28,37 +26,30 @@ export default function DashboardPage() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white">
-      {/*  Welcome message */}
-      <h1 className="text-4xl font-bold text-center text-blue-400">
-        {user ? `Welcome, ${user.name || "Guest"}!` : "Loading..."}
-      </h1>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white p-6">
+      {/* Welcome message */}
+      <h1 className="text-4xl font-bold text-blue-400">{user ? `Welcome, ${user.name}!` : "Loading..."}</h1>
+      <p className="mt-2 text-lg text-gray-300">{user ? `You are logged in as: ${user.role.toUpperCase()}` : ""}</p>
 
-      {/*  Display user role */}
-      <p className="mt-4 text-lg text-gray-300">
-        {user ? `You are logged in as: ${user.role.toUpperCase()}` : ""}
-      </p>
-
-      {/*  Task List */}
-      <div className="mt-8 w-full max-w-2xl">
-        <h2 className="text-2xl font-semibold text-gray-300 mb-4">Your Tasks</h2>
-
-        {/* Show loading message */}
-        {loading && <p className="text-gray-400">Loading tasks...</p>}
-
-        {/* Show tasks if available */}
-        {tasks.length > 0 ? (
+      {/*  Task Section */}
+      <div className="mt-8 w-full max-w-2xl bg-gray-800 p-6 rounded-lg shadow-lg">
+        <h2 className="text-xl font-semibold mb-4 text-white">Your Tasks</h2>
+        {loading ? (
+          <p className="text-gray-400">Loading tasks...</p>
+        ) : tasks.length === 0 ? (
+          <p className="text-gray-400">No tasks found.</p>
+        ) : (
           <ul className="space-y-3">
             {tasks.map((task) => (
-              <li key={task.id} className="p-4 bg-gray-800 rounded-lg shadow-md">
-                <h3 className="text-lg font-semibold text-blue-300">{task.title}</h3>
-                <p className="text-gray-400">{task.description}</p>
-                <p className="text-sm text-gray-500">Status: {task.status}</p>
+              <li key={task.id} className="p-3 bg-gray-700 rounded-md shadow-sm">
+                <h3 className="text-lg font-medium text-blue-300">{task.title}</h3>
+                <p className="text-sm text-gray-400">{task.description}</p>
+                <span className={`text-sm ${task.status === "Completed" ? "text-green-400" : "text-yellow-400"}`}>
+                  {task.status}
+                </span>
               </li>
             ))}
           </ul>
-        ) : (
-          !loading && <p className="text-gray-400">No tasks found.</p>
         )}
       </div>
     </div>
