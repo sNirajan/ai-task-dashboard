@@ -39,7 +39,18 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
         setLoading(true);
         try {
             const response = await fetchTasks();
-            setTasks(response.data);    // Store fetched tasks
+            // Defines the order for statuses
+            const statusOrder: { [key: string]: number} = {
+                "To-Do": 1,
+                "In-Progress": 2,
+                "Completed": 3,
+            };
+
+            // Sort tasks based on their status using the defined order
+            const sortedTasks = response.data.sort((a: Task, b: Task) => {
+                return statusOrder[a.status] - statusOrder[b.status];
+            });
+            setTasks(sortedTasks);    // Store fetched tasks
         } catch (error) {
             console.error("Failed to fetch tasks", error);
         } finally {

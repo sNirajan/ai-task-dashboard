@@ -18,7 +18,7 @@ module.exports = {
         allowNull: true,
       },
       status: {
-        type: Sequelize.ENUM("To-Do", "In Progress", "Completed"),
+        type: Sequelize.ENUM("To-Do", "In-Progress", "Completed"),
         defaultValue: "To-Do",
         allowNull: false,
       },

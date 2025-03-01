@@ -72,6 +72,12 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// Logout API
+router.post("/logout", (req, res) => {
+  res.clearCookie("token");   // Clears the token
+  res.status(200).json({ message: "Logged out successfully"});
+});
+
 module.exports = router;
 
 /* Explanation for Register API: 
