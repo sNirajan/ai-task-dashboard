@@ -32,9 +32,9 @@ Object.keys(db).forEach((modelName) => {
 });
 
 db.sequelize = sequelize;
-db.Sequelize = Sequelize;
 
-// Register the Task model
-db.Task = require("./task")(sequelize, Sequelize.DataTypes);
+
+// // Register the Task model
+// db.Task = require("./task")(sequelize, Sequelize.DataTypes);
 
 module.exports = db;
