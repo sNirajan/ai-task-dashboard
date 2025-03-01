@@ -4,18 +4,20 @@ import { createContext, useContext, useState, useEffect, ReactNode } from "react
 import { fetchTasks, createTask, updateTask, deleteTask } from "../../utils/api";
 
 // Defining Task Type
-interface Task {
+export interface Task {
     id: number;
     title: string;
     description: string;
-    status: "To-Do" | "In Progress" | "Completed";  // Restricted status to known values  
+    status: "To-Do" | "In-Progress" | "Completed";  // Restricted status to known values 
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 // Defining Context Type
 interface TaskContextType {
     tasks: Task[];
     loading: boolean;
-    addTask: (taskData: Task) => Promise<void>;
+    addTask: (taskData: { title: string; description: string }) => Promise<void>;
     editTask: (taskId: number, taskData: Task) => Promise<void>;
     removeTask: (taskId: number) => Promise<void>;
 }
@@ -46,10 +48,21 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
     };
 
     // Function to add a new task
-    const addTask = async (taskData: Task) => {
+    const addTask = async (taskData: { title: string; description: string }) => {
         try {
             const response = await createTask(taskData);
-            setTasks([...tasks, response.data]);    // Update task list
+
+            // Ensure that the response data matches the `Task` type
+            const newTask: Task = {
+                id: response.data.id,   // Assigned by backend
+                title: response.data.title,
+                description: response.data.description,
+                status: response.data.status || "To-Do",
+                createdAt: response.data.createdAt || new Date().toISOString(),
+                updatedAt: response.data.updatedAt || new Date().toISOString(),
+            };
+
+            setTasks([...tasks, newTask]); // Update the state
         } catch (error) {
             console.error("Failed to add task:", error);
         }
